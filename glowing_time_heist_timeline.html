@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal Branch Timeline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            background-color: #020005; /* Deeper void black for maximum contrast */
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* NEW DBZ THEME: Anime Action Lines */
+        .action-lines {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200vw; height: 200vh;
+            transform: translate(-50%, -50%);
+            background: repeating-conic-gradient(
+                transparent 0deg,
+                transparent 2deg,
+                rgba(255, 255, 255, 0.03) 2.5deg,
+                transparent 3deg
+            );
+            z-index: -4;
+            animation: rotateLines 120s linear infinite;
+        }
+
+        @keyframes rotateLines {
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* NEW DBZ THEME: Super Saiyan Ambient Aura */
+        .ssj-aura {
+            position: absolute;
+            bottom: -20%; left: 50%;
+            transform: translateX(-50%);
+            width: 150%; height: 100%;
+            background: radial-gradient(ellipse at bottom, rgba(255, 165, 0, 0.12) 0%, rgba(255, 69, 0, 0.04) 40%, transparent 70%);
+            filter: blur(40px);
+            animation: pulseAuraBg 3s infinite alternate;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        @keyframes pulseAuraBg {
+            0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* NEW DBZ THEME: Dimensional Tear (Buu / Goku Black style) */
+        .dimensional-tear {
+            position: absolute;
+            top: -10%; left: 25%;
+            width: 50%; height: 120%;
+            opacity: 0.7;
+            z-index: -2;
+            animation: tearPulse 4s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes tearPulse {
+            0% { filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 30px #8a2be2); }
+            100% { filter: drop-shadow(0 0 25px #ff00ff) drop-shadow(0 0 60px #ff00aa); }
+        }
+
+        /* NEW DBZ THEME: Rising Ki Embers */
+        .ki-embers {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .ember {
+            position: absolute;
+            bottom: -20px;
+            width: 3px; height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffcc00, 0 0 20px #ff6600;
+            opacity: 0;
+        }
+        .ember:nth-child(1) { left: 20%; animation: floatUp 4s 0s linear infinite; }
+        .ember:nth-child(2) { left: 50%; animation: floatUp 5s 1s linear infinite; }
+        .ember:nth-child(3) { left: 80%; animation: floatUp 3.5s 2s linear infinite; }
+        .ember:nth-child(4) { left: 35%; animation: floatUp 6s 0.5s linear infinite; }
+        .ember:nth-child(5) { left: 65%; animation: floatUp 4.5s 1.5s linear infinite; }
+        .ember:nth-child(6) { left: 10%; animation: floatUp 5.5s 2.5s linear infinite; }
+        .ember:nth-child(7) { left: 90%; animation: floatUp 3s 0.2s linear infinite; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.3;
+            animation: twinkle 5s infinite alternate;
+            z-index: -2;
+        }
+
+        .time-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(0, 255, 170, 0.08); /* Supreme Kai Time Ring Green */
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.05), inset 0 0 30px rgba(0, 255, 170, 0.05);
+            z-index: -1;
+        }
+
+        .ring-1 { width: 400px; height: 400px; border-style: dashed; animation: spin 40s linear infinite; }
+        .ring-2 { width: 700px; height: 700px; animation: spin 60s linear infinite reverse; }
+        .ring-3 { width: 1000px; height: 1000px; border: 1px dotted rgba(255, 0, 128, 0.1); animation: spin 90s linear infinite; }
+
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes twinkle { 0% { opacity: 0.1; } 100% { opacity: 0.4; } }
+
+        .timeline-container {
+            position: relative;
+            width: 1200px;
+            height: 700px;
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* The Main 'Sacred' Timeline - Super Saiyan Gold Astral */
+        .main-line {
+            fill: none;
+            stroke: #fffbe6; /* White-hot core */
+            stroke-width: 6;
+            filter: drop-shadow(0 0 8px #ffcc00) drop-shadow(0 0 20px #ffaa00) drop-shadow(0 0 40px #ff6600);
+            animation: pulseAura 2s infinite alternate;
+        }
+
+        /* Branch Realities - Astral Energy Flow */
+        .branch-line {
+            fill: none;
+            stroke-width: 5;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawBranch 3s ease forwards;
+            animation-delay: 0.5s;
+            stroke-linecap: round;
+        }
+
+        /* DBZ Specific Branch Ki Colors - Upgraded to Astral Glows */
+        .branch-feral { stroke: #ffe6e6; filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 20px #c8102e); } /* Oozaru Crimson */
+        .branch-crane { stroke: #f2f5e6; filter: drop-shadow(0 0 8px #a4c400) drop-shadow(0 0 20px #60a917); } /* Crane School Olive/Green */
+        .branch-ribbon { stroke: #fff0f0; filter: drop-shadow(0 0 8px #ff3333) drop-shadow(0 0 20px #cc0000); } /* RR Blood Red */
+        .branch-kami { stroke: #e6ffe6; filter: drop-shadow(0 0 8px #00ff66) drop-shadow(0 0 20px #00b34d); } /* Namekian Emerald */
+        .branch-demon { stroke: #f5e6ff; filter: drop-shadow(0 0 8px #d500ff) drop-shadow(0 0 20px #800080); } /* Demon Clan Purple */
+        .branch-jaco { stroke: #e6f2ff; filter: drop-shadow(0 0 8px #0088ff) drop-shadow(0 0 20px #0055ff); } /* Galactic Patrol Blue */
+        .branch-capsule { stroke: #e6ffff; filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 20px #00aaaa); } /* Capsule Corp Cyan */
+
+        @keyframes drawBranch {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes pulseAura {
+            0% { filter: drop-shadow(0 0 8px #ffcc00) drop-shadow(0 0 20px #ffaa00) drop-shadow(0 0 35px #ff6600); }
+            100% { filter: drop-shadow(0 0 12px #ffea00) drop-shadow(0 0 30px #ff8800) drop-shadow(0 0 55px #ff4400); }
+        }
+
+        /* Text Labels */
+        .label {
+            position: absolute;
+            background: rgba(10, 5, 20, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid;
+            padding: 15px;
+            border-radius: 8px;
+            width: 220px;
+            opacity: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 3s; /* Appears after lines draw */
+            z-index: 10;
+        }
+
+        .label h3 {
+            margin: 0 0 8px 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .label p {
+            margin: 0;
+            font-size: 12px;
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+
+        /* DBZ Specific Label Border & Title Colors */
+        .label-main { border-color: #ffcc00; }
+        .label-main h3 { color: #ffcc00; }
+        
+        .label-feral { border-color: #c8102e; }
+        .label-feral h3 { color: #ff4d4d; }
+        
+        .label-crane { border-color: #a4c400; }
+        .label-crane h3 { color: #b6ff00; }
+        
+        .label-ribbon { border-color: #ff0000; }
+        .label-ribbon h3 { color: #ff4d4d; }
+        
+        .label-kami { border-color: #00b34d; }
+        .label-kami h3 { color: #00ff66; }
+        
+        .label-demon { border-color: #800080; }
+        .label-demon h3 { color: #e100ff; }
+
+        .label-jaco { border-color: #0055ff; }
+        .label-jaco h3 { color: #4d94ff; }
+
+        .label-capsule { border-color: #00ffff; }
+        .label-capsule h3 { color: #80ffff; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+            0% { transform: translateY(10px); opacity: 0; }
+        }
+
+        /* Positioning the labels */
+        .pos-main { top: 270px; left: 20px; }
+        .pos-feral { top: 20px; left: 80px; }
+        .pos-crane { top: 510px; left: 240px; }
+        .pos-ribbon { top: 20px; left: 400px; }
+        .pos-kami { top: 510px; left: 560px; }
+        .pos-demon { top: 20px; left: 720px; }
+        .pos-jaco { top: 510px; left: 880px; }
+        .pos-capsule { top: 20px; left: 1000px; }
+
+        /* Nexus points glowing Dragon Ball style */
+        .dragonball {
+            filter: drop-shadow(0 0 10px #ff6a00) drop-shadow(0 0 20px #ffcc00);
+            animation: pulseDB 2s infinite alternate;
+        }
+
+        @keyframes pulseDB {
+            0% { filter: drop-shadow(0 0 10px #ff6a00) drop-shadow(0 0 20px #ffcc00); }
+            100% { filter: drop-shadow(0 0 15px #ffaa00) drop-shadow(0 0 35px #ffe600); }
+        }
+
+        /* Title */
+        .heist-title {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            color: #ffffff;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px #8a2be2, 0 0 40px #ff0080;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DBZ THEME: Anime action lines -->
+    <div class="action-lines"></div>
+
+    <!-- DBZ THEME: Super Saiyan Ambient Aura -->
+    <div class="ssj-aura"></div>
+
+    <!-- DBZ THEME: Dimensional Tear (Buu/Goku Black) -->
+    <svg class="dimensional-tear" viewBox="0 0 200 1000" preserveAspectRatio="none">
+        <path d="M 100 -50 L 130 150 L 80 300 L 150 450 L 90 600 L 160 800 L 110 1050 
+                 L 130 1050 L 180 800 L 110 600 L 170 450 L 100 300 L 150 150 Z" 
+              fill="#020005" stroke="#ff00ff" stroke-width="2" />
+        <path d="M 100 -50 L 130 150 L 80 300 L 150 450 L 90 600 L 160 800 L 110 1050" 
+              fill="none" stroke="#ff66ff" stroke-width="4" filter="blur(4px)" />
+    </svg>
+
+    <!-- DBZ THEME: Rising Ki Embers -->
+    <div class="ki-embers">
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+    </div>
+
+    <div class="stars"></div>
+
+    <div class="timeline-container">
+        <!-- DB Super Style Time Rings in the background -->
+        <div class="time-ring ring-1"></div>
+        <div class="time-ring ring-2"></div>
+        <div class="time-ring ring-3"></div>
+
+        <div class="heist-title">Temporal Divergence Matrix</div>
+
+        <svg viewBox="0 0 1200 700">
+            <defs>
+                <!-- Super Saiyan Aura Filter for the lines to make them look wavy/energetic -->
+                <filter id="ki-distortion" x="-20%" y="-20%" width="140%" height="140%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="distorted" />
+                    <feMerge>
+                        <feMergeNode in="distorted" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+
+                <!-- Custom Gradient to make the nodes look like glowing Dragon Balls -->
+                <radialGradient id="db-gradient" cx="35%" cy="35%" r="65%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="30%" stop-color="#ffcc00" />
+                    <stop offset="70%" stop-color="#ff6a00" />
+                    <stop offset="100%" stop-color="#cc2200" />
+                </radialGradient>
+            </defs>
+
+            <!-- Main Canonical Timeline -->
+            <line x1="50" y1="350" x2="1150" y2="350" class="main-line" filter="url(#ki-distortion)" />
+            
+            <!-- 1. Feral Branch (Up) -->
+            <path d="M 150 350 C 180 350, 190 120, 260 100" class="branch-line branch-feral" filter="url(#ki-distortion)" />
+            <circle cx="150" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 2. Crane Branch (Down) -->
+            <path d="M 300 350 C 330 350, 340 580, 410 600" class="branch-line branch-crane" filter="url(#ki-distortion)" />
+            <circle cx="300" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 3. Red Ribbon Branch (Up) -->
+            <path d="M 450 350 C 480 350, 490 120, 560 100" class="branch-line branch-ribbon" filter="url(#ki-distortion)" />
+            <circle cx="450" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 4. Kami Branch (Down) -->
+            <path d="M 600 350 C 630 350, 640 580, 710 600" class="branch-line branch-kami" filter="url(#ki-distortion)" />
+            <circle cx="600" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 5. Demon Branch (Up) -->
+            <path d="M 750 350 C 780 350, 790 120, 860 100" class="branch-line branch-demon" filter="url(#ki-distortion)" />
+            <circle cx="750" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 6. Jaco Branch (Down) -->
+            <path d="M 900 350 C 930 350, 940 580, 1010 600" class="branch-line branch-jaco" filter="url(#ki-distortion)" />
+            <circle cx="900" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+
+            <!-- 7. Capsule Corp Branch (Up) -->
+            <path d="M 1050 350 C 1080 350, 1090 120, 1160 100" class="branch-line branch-capsule" filter="url(#ki-distortion)" />
+            <circle cx="1050" cy="350" r="12" fill="url(#db-gradient)" class="dragonball" />
+        </svg>
+
+        <!-- Labels -->
+        <div class="label label-main pos-main">
+            <h3>Age-Up Engine</h3>
+            <p>The Sacred Timeline. Kakarot lands, hits his head, and becomes Earth's greatest defender.</p>
+        </div>
+
+        <div class="label label-feral pos-feral">
+            <h3>1. Feral Conqueror</h3>
+            <p>No head injury. Kakarot turns Great Ape, slays Gohan, and claims the Earth for the Saiyans.</p>
+        </div>
+
+        <div class="label label-crane pos-crane">
+            <h3>2. Crane Assassin</h3>
+            <p>Master Shen discovers the pod. The Saiyan becomes a ruthless assassin replacing Mercenary Tao.</p>
+        </div>
+
+        <div class="label label-ribbon pos-ribbon">
+            <h3>3. Project Kakarot</h3>
+            <p>Dr. Gero secures the baby. Kakarot is raised as the Red Ribbon Army's cybernetic superweapon.</p>
+        </div>
+
+        <div class="label label-kami pos-kami">
+            <h3>4. The Prisoner</h3>
+            <p>Kami senses the malice and preemptively locks Kakarot away in the Hyperbolic Time Chamber.</p>
+        </div>
+
+        <div class="label label-demon pos-demon">
+            <h3>5. Demon Vanguard</h3>
+            <p>King Piccolo's residual energy manipulates the Saiyan to become his premier enforcer.</p>
+        </div>
+
+        <div class="label label-jaco pos-jaco">
+            <h3>6. Patrol Intercept</h3>
+            <p>Jaco actually does his job. He intercepts the pod and Kakarot is arrested by the Galactic Patrol.</p>
+        </div>
+
+        <div class="label label-capsule pos-capsule">
+            <h3>7. Capsule Alliance</h3>
+            <p>Bulma uses high-tech restraints on the hostile Saiyan, forcing him to hunt Dragon Balls for her.</p>
+        </div>
+    </div>
+
+</body>
+</html>
